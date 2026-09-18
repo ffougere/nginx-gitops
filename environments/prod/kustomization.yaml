@@ -12,7 +12,7 @@ nameSuffix: -prod
 images:
   - name: nginx
     newName: nginx
-    newTag: "1.28.2"
+    newTag: "1.28.1"
 
 replicas:
   - name: nginx
