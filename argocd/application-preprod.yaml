@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-preprod
+  namespace: argocd
+spec:
+  project: nginx-gitops
+
+  source:
+    repoURL: REPLACE_WITH_GIT_REPOSITORY_URL
+    targetRevision: main
+    path: environments/preprod
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: preprod
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+
+  revisionHistoryLimit: 10

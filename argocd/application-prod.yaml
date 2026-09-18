@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-prod
+  namespace: argocd
+spec:
+  project: nginx-gitops
+
+  source:
+    repoURL: REPLACE_WITH_GIT_REPOSITORY_URL
+    targetRevision: main
+    path: environments/prod
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod
+
+  # Production is intentionally not auto-synced.
+  # The Git change is still the source of truth, but sync is manually approved.
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+
+  revisionHistoryLimit: 10

@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: nginx-gitops
+  namespace: argocd
+spec:
+  description: GitOps project for Nginx DEV/PREPROD/PROD environments
+
+  sourceRepos:
+    - REPLACE_WITH_GIT_REPOSITORY_URL
+
+  destinations:
+    - namespace: dev
+      server: https://kubernetes.default.svc
+    - namespace: preprod
+      server: https://kubernetes.default.svc
+    - namespace: prod
+      server: https://kubernetes.default.svc
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
